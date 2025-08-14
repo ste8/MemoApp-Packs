@@ -417,3 +417,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 settings.local.json
+PacksBuilder/.idea/.idea.PacksBuilder/.idea
+Thumbs.db
