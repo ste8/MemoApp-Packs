@@ -1,0 +1,9 @@
+{
+  "international_name": "Spanish",
+  "native_name": "Español",
+  "description": "Traditional Spanish major system",
+  "native_description": "Sistema mayor tradicional español",
+  "version": "1.0.0",
+  "language_code": "es",
+  "author": "CompanyX"
+}
