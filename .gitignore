@@ -420,3 +420,6 @@ settings.local.json
 PacksBuilder/.idea/.idea.PacksBuilder/.idea
 Thumbs.db
 ImagesGenerator/.idea/.idea.ImagesGenerator/.idea
+tools/ImagesGenerator/.idea/.idea.ImagesGenerator/.idea
+appsettings.Development.json
+tools/PacksBuilder/.idea
