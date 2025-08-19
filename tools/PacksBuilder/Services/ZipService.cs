@@ -72,8 +72,8 @@ public class ZipService
 
         using var archive = ZipFile.Open(destinationZip, ZipArchiveMode.Create);
         
-        var directoryName = Path.GetFileName(sourceDir);
-        AddDirectoryToZip(archive, sourceDir, directoryName);
+        // Add files and directories without a root folder
+        AddDirectoryToZip(archive, sourceDir, string.Empty);
     }
 
     private void AddDirectoryToZip(ZipArchive archive, string sourceDir, string entryName)
@@ -81,7 +81,10 @@ public class ZipService
         var files = Directory.GetFiles(sourceDir);
         foreach (var file in files)
         {
-            var relativePath = Path.Combine(entryName, Path.GetFileName(file));
+            // If entryName is empty, just use the filename, otherwise combine
+            var relativePath = string.IsNullOrEmpty(entryName) 
+                ? Path.GetFileName(file) 
+                : Path.Combine(entryName, Path.GetFileName(file));
             archive.CreateEntryFromFile(file, relativePath, CompressionLevel.Optimal);
         }
 
@@ -89,7 +92,10 @@ public class ZipService
         foreach (var subdirectory in subdirectories)
         {
             var subdirName = Path.GetFileName(subdirectory);
-            var newEntryName = Path.Combine(entryName, subdirName);
+            // If entryName is empty, just use the subdirectory name, otherwise combine
+            var newEntryName = string.IsNullOrEmpty(entryName) 
+                ? subdirName 
+                : Path.Combine(entryName, subdirName);
             AddDirectoryToZip(archive, subdirectory, newEntryName);
         }
     }
