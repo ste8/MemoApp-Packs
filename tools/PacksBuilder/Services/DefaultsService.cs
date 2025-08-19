@@ -20,7 +20,7 @@ public class DefaultsService
 
     public void InitializeOrUpdateDefaults(string packPath)
     {
-        var defaultsPath = Path.Combine(packPath, "defaults.json");
+        var defaultsPath = Path.Combine(packPath, "major_system", "defaults.json");
         var imagesByCategory = _fileDiscovery.DiscoverImages(packPath);
 
         if (imagesByCategory.Count == 0)
@@ -96,6 +96,12 @@ public class DefaultsService
 
     private void SaveDefaults(string defaultsPath, JsonObject defaults)
     {
+        var directory = Path.GetDirectoryName(defaultsPath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        
         var json = defaults.ToJsonString(_jsonOptions);
         File.WriteAllText(defaultsPath, json);
     }

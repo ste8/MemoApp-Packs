@@ -38,7 +38,7 @@ public class FileDiscoveryService
     public Dictionary<string, List<string>> DiscoverImages(string packPath)
     {
         var result = new Dictionary<string, List<string>>();
-        var imagesPath = Path.Combine(packPath, "images");
+        var imagesPath = Path.Combine(packPath, "major_system", "images");
 
         if (!Directory.Exists(imagesPath))
             return result;
