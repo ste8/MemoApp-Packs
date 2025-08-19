@@ -13,6 +13,9 @@ public class MasterIndex
 
 public class PackEntry
 {
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = string.Empty;
+
     [JsonPropertyName("international_name")]
     public string InternationalName { get; set; } = string.Empty;
 
@@ -33,9 +36,6 @@ public class PackEntry
 
     [JsonPropertyName("author")]
     public string Author { get; set; } = string.Empty;
-
-    [JsonPropertyName("filename")]
-    public string Filename { get; set; } = string.Empty;
 
     [JsonPropertyName("file_size")]
     public long FileSize { get; set; }

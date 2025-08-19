@@ -52,9 +52,10 @@ public class MasterIndexServiceTests : IDisposable
         Assert.Equal(1, packs.GetArrayLength());
         
         var pack = packs[0];
+        Assert.True(pack.TryGetProperty("id", out _), "Pack should have an 'id' property");
         Assert.Equal("Italian", pack.GetProperty("international_name").GetString());
         Assert.Equal("1.0.0", pack.GetProperty("version").GetString());
-        Assert.Equal("italian_1.0.0.zip", pack.GetProperty("filename").GetString());
+        Assert.False(pack.TryGetProperty("filename", out _), "Pack should not have a 'filename' property");
         Assert.Equal(1000, pack.GetProperty("file_size").GetInt64());
         Assert.Equal("https://test.com/packs/italian_1.0.0.zip", pack.GetProperty("download_url").GetString());
     }
@@ -69,6 +70,7 @@ public class MasterIndexServiceTests : IDisposable
             ""last_updated"": ""2025-01-01T00:00:00Z"",
             ""packs"": [
                 {
+                    ""id"": ""italian"",
                     ""international_name"": ""Italian"",
                     ""native_name"": ""Old Name"",
                     ""description"": ""Old Description"",
@@ -76,7 +78,6 @@ public class MasterIndexServiceTests : IDisposable
                     ""version"": ""1.0.0"",
                     ""language_code"": ""it"",
                     ""author"": ""Old Author"",
-                    ""filename"": ""old.zip"",
                     ""file_size"": 500,
                     ""download_url"": ""https://old.com/old.zip""
                 }
@@ -97,7 +98,7 @@ public class MasterIndexServiceTests : IDisposable
         
         var pack = packs[0];
         Assert.Equal("Italiano", pack.GetProperty("native_name").GetString());
-        Assert.Equal("italian_1.0.0.zip", pack.GetProperty("filename").GetString());
+        Assert.False(pack.TryGetProperty("filename", out _), "Pack should not have a 'filename' property");
         Assert.Equal(2000, pack.GetProperty("file_size").GetInt64());
     }
 

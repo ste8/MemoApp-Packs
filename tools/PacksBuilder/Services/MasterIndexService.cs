@@ -30,21 +30,22 @@ public class MasterIndexService
         var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         var masterIndex = LoadMasterIndex(indexPath);
 
+        var packId = Path.GetFileName(packPath).ToLowerInvariant();
         var filename = Path.GetFileName(zipPath);
         var downloadUrl = BuildDownloadUrl(filename);
 
         var existingEntry = masterIndex.Packs.FirstOrDefault(p => 
-            p.InternationalName == manifest.InternationalName && 
+            p.Id == packId && 
             p.Version == manifest.Version);
 
         if (existingEntry != null)
         {
+            existingEntry.InternationalName = manifest.InternationalName;
             existingEntry.NativeName = manifest.NativeName;
             existingEntry.Description = manifest.Description;
             existingEntry.NativeDescription = manifest.NativeDescription;
             existingEntry.LanguageCode = manifest.LanguageCode;
             existingEntry.Author = manifest.Author;
-            existingEntry.Filename = filename;
             existingEntry.FileSize = fileSize;
             existingEntry.DownloadUrl = downloadUrl;
         }
@@ -52,6 +53,7 @@ public class MasterIndexService
         {
             masterIndex.Packs.Add(new PackEntry
             {
+                Id = packId,
                 InternationalName = manifest.InternationalName,
                 NativeName = manifest.NativeName,
                 Description = manifest.Description,
@@ -59,7 +61,6 @@ public class MasterIndexService
                 Version = manifest.Version,
                 LanguageCode = manifest.LanguageCode,
                 Author = manifest.Author,
-                Filename = filename,
                 FileSize = fileSize,
                 DownloadUrl = downloadUrl
             });
@@ -100,8 +101,10 @@ public class MasterIndexService
 
             if (!string.IsNullOrEmpty(packName) && !string.IsNullOrEmpty(version))
             {
+                var packId = ExtractPackIdFromZipFilename(filename);
                 masterIndex.Packs.Add(new PackEntry
                 {
+                    Id = packId,
                     InternationalName = packName,
                     NativeName = packName,
                     Description = $"Major system pack for {packName}",
@@ -109,7 +112,6 @@ public class MasterIndexService
                     Version = version,
                     LanguageCode = "",
                     Author = "",
-                    Filename = filename,
                     FileSize = fileInfo.Length,
                     DownloadUrl = BuildDownloadUrl(filename)
                 });
@@ -184,6 +186,19 @@ public class MasterIndexService
         }
 
         return "1.0.0";
+    }
+
+    private string ExtractPackIdFromZipFilename(string filename)
+    {
+        var nameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+        var lastUnderscore = nameWithoutExt.LastIndexOf('_');
+        
+        if (lastUnderscore > 0)
+        {
+            return nameWithoutExt.Substring(0, lastUnderscore).ToLowerInvariant();
+        }
+
+        return nameWithoutExt.ToLowerInvariant();
     }
 }
 
