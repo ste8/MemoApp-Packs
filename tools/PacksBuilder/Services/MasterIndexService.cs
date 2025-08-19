@@ -27,7 +27,7 @@ public class MasterIndexService
         if (manifest == null)
             return;
 
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         var masterIndex = LoadMasterIndex(indexPath);
 
         var filename = Path.GetFileName(zipPath);
@@ -81,7 +81,7 @@ public class MasterIndexService
             return;
         }
 
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         var masterIndex = new MasterIndex
         {
             LastUpdated = DateTime.UtcNow,

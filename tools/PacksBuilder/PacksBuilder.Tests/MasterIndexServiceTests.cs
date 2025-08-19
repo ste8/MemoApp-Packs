@@ -42,7 +42,7 @@ public class MasterIndexServiceTests : IDisposable
 
         _service.UpdateMasterIndex(packDir, zipPath, 1000);
 
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         Assert.True(File.Exists(indexPath));
 
         var json = File.ReadAllText(indexPath);
@@ -83,7 +83,7 @@ public class MasterIndexServiceTests : IDisposable
             ]
         }";
         
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         File.WriteAllText(indexPath, existingIndex);
 
         var zipPath = Path.Combine(_settings.OutputDirectory, "italian_1.0.0.zip");
@@ -115,7 +115,7 @@ public class MasterIndexServiceTests : IDisposable
         var pack3Dir = SetupTestPack("English", "3.0.0");
         _service.UpdateMasterIndex(pack3Dir, "english.zip", 3000);
 
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         var json = File.ReadAllText(indexPath);
         var index = JsonDocument.Parse(json);
         
@@ -138,7 +138,7 @@ public class MasterIndexServiceTests : IDisposable
 
         _service.RegenerateMasterIndex();
 
-        var indexPath = Path.Combine(_settings.OutputDirectory, "major_system_packs.json");
+        var indexPath = Path.Combine(_settings.OutputDirectory, "packs.json");
         Assert.True(File.Exists(indexPath));
 
         var json = File.ReadAllText(indexPath);

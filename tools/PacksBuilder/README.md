@@ -119,7 +119,7 @@ Examples:
 - Example: `italian_1.0.0.zip`
 - Contains the complete pack folder structure
 
-### major_system_packs.json
+### packs.json
 
 Master index file containing:
 - Pack metadata from manifest.json
