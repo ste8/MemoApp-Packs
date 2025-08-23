@@ -5,7 +5,7 @@ namespace PacksBuilder.Services;
 
 public class FileDiscoveryService
 {
-    private static readonly string[] ImageExtensions = { ".png", ".jpg", ".jpeg" };
+    private static readonly string[] ImageExtensions = { ".png", ".jpg", ".jpeg", ".webp" };
 
     public List<string> DiscoverPackFolders(string rootPath)
     {

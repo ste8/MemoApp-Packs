@@ -93,7 +93,7 @@ public class FileDiscoveryServiceTests : IDisposable
     public void DiscoverImages_FindsImagesInCategories()
     {
         var packDir = Path.Combine(_testDirectory, "pack");
-        var imagesDir = Path.Combine(packDir, "images");
+        var imagesDir = Path.Combine(packDir, "major_system", "images");
         var numbersDir = Path.Combine(imagesDir, "numbers");
         var lettersDir = Path.Combine(imagesDir, "letters_upper");
         
@@ -111,8 +111,33 @@ public class FileDiscoveryServiceTests : IDisposable
         Assert.Contains("numbers", result.Keys);
         Assert.Contains("letters_upper", result.Keys);
         Assert.Equal(2, result["numbers"].Count);
-        Assert.Equal(1, result["letters_upper"].Count);
+        Assert.Single(result["letters_upper"]);
         Assert.Contains("00_sasso.png", result["numbers"]);
+        Assert.DoesNotContain("readme.txt", result["numbers"]);
+    }
+
+    [Fact]
+    public void DiscoverImages_SupportsWebpFormat()
+    {
+        var packDir = Path.Combine(_testDirectory, "pack");
+        var imagesDir = Path.Combine(packDir, "major_system", "images");
+        var numbersDir = Path.Combine(imagesDir, "numbers");
+        
+        Directory.CreateDirectory(numbersDir);
+        
+        File.WriteAllText(Path.Combine(numbersDir, "00_sasso.webp"), "");
+        File.WriteAllText(Path.Combine(numbersDir, "01_te.webp"), "");
+        File.WriteAllText(Path.Combine(numbersDir, "02_mixed.png"), "");
+        File.WriteAllText(Path.Combine(numbersDir, "readme.txt"), "");
+
+        var result = _service.DiscoverImages(packDir);
+
+        Assert.Single(result);
+        Assert.Contains("numbers", result.Keys);
+        Assert.Equal(3, result["numbers"].Count);
+        Assert.Contains("00_sasso.webp", result["numbers"]);
+        Assert.Contains("01_te.webp", result["numbers"]);
+        Assert.Contains("02_mixed.png", result["numbers"]);
         Assert.DoesNotContain("readme.txt", result["numbers"]);
     }
 
