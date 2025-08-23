@@ -4,7 +4,7 @@
   "native_name": "Italiano",
   "description": "Italian major system",
   "native_description": "Schedario mentale per l'italiano",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "language_code": "it",
   "author": "Stefano Ottaviani"
 }
